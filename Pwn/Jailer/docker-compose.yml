@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  jailer:
+    build: .
+    container_name: jailer_challenge
+    restart: unless-stopped
+    ports:
+      - "1338:1338"
+    security_opt:
+      - no-new-privileges:true
+    cap_add:
+      - SYS_CHROOT
+    tmpfs:
+      - /tmp/empty-jail:noexec,nosuid,nodev,size=1M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+        reservations:
+          cpus: '0.1'
+          memory: 32M
+    networks:
+      - ctf_network
+
+networks:
+  ctf_network:
+    driver: bridge

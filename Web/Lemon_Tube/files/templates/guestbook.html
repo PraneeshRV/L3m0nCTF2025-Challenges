@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin: 0 auto;">
+    <div class="text-center mb-20">
+        <h2 style="font-size: 2rem; margin-bottom: 10px;">Community Discussion</h2>
+        <p class="text-muted">Join the conversation! Share your thoughts with the L3mon Tube community.</p>
+    </div>
+
+    <div class="form-container" style="margin-top: 20px; padding: 30px;">
+        <form action="/guestbook" method="POST">
+            <div class="form-group">
+                <label for="comment">Create a Post</label>
+                <textarea name="comment" id="comment" placeholder="What's on your mind?" required
+                    style="min-height: 100px;"></textarea>
+            </div>
+            <div style="text-align: right;">
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="comments-section">
+        <h3 class="mb-20" style="border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Recent Activity
+        </h3>
+        {% if comments %}
+        {% for comment in comments %}
+        <div class="comment-card">
+            <div class="video-info">
+                <div class="avatar"
+                    style="background-image: url('https://picsum.photos/seed/user{{ loop.index }}/100/100');"></div>
+                <div class="details">
+                    <div class="channel-name"
+                        style="margin-bottom: 5px; color: var(--primary-color); font-weight: 600;">Anonymous User</div>
+                    <div style="color: var(--text-color); font-size: 1rem;">
+                        {{ comment | safe }}
+                    </div>
+                    <div class="meta-info" style="margin-top: 10px; font-size: 0.8rem;">Just now</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="text-center text-muted" style="padding: 40px;">
+            <p>No comments yet. Be the first to post!</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

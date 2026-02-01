@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  redirect-hell:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: redirect-hell
+    ports:
+      - "5000:5000"
+    environment:
+      - FLAG=${FLAG:-L3m0nCTF{d1m3ns10n_h0pp1ng_w1th_th3_s0rc3r3r_supr3m3}}
+    restart: unless-stopped

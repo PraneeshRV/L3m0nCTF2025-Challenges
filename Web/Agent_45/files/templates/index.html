@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent 45 - Access Control</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="center-screen">
+    <canvas id="bg-canvas"></canvas>
+    <div class="scanlines"></div>
+
+    <div class="glass-panel" style="padding: 2rem; width: 350px; text-align: center; z-index: 1;">
+        <h1 class="glitch" data-text="AGENT 45">AGENT 45</h1>
+        <form action="/login" method="POST">
+            <input type="text" name="username" class="cyber-input" placeholder="CODENAME" required>
+            <input type="password" name="password" class="cyber-input" placeholder="PASSPHRASE" required>
+            <button type="submit" class="cyber-button">Authenticate</button>
+        </form>
+        {% if error %}
+        <div class="neon-text-red" style="margin-top: 10px; font-size: 0.9em;">{{ error }}</div>
+        {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

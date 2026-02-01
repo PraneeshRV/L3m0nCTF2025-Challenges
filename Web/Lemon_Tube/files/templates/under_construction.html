@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin: 40px auto; text-align: center;">
+    <div style="font-size: 4rem; margin-bottom: 20px;">🚧</div>
+    <h1 style="margin-bottom: 20px;">Template Editor Under Construction</h1>
+    <p class="text-muted" style="margin-bottom: 40px;">
+        We are currently upgrading the template editor to provide a better experience.
+        In the meantime, you can search for existing templates below.
+    </p>
+
+    <div class="search-container" style="max-width: 500px; margin: 0 auto;">
+        <form action="/admin_area/template_editor.php" method="GET">
+            <div class="form-group">
+                <input type="text" name="search" placeholder="Search templates..." class="form-control"
+                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color);">
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px; width: 100%;">Search</button>
+        </form>
+    </div>
+
+    {% if search_result %}
+    <div class="search-results" style="margin-top: 40px; text-align: left;">
+        <h3>Search Results for: {{ search_result|safe }}</h3>
+        <p class="text-muted">No templates found matching your query.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

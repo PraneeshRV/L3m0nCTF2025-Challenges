@@ -1,0 +1,16 @@
+version: '3'
+services:
+  challenge:
+    build: .
+    ports:
+      - "${PORT:-8081}:5005"
+    environment:
+      - FLAG=${FLAG:-L3m0nctf{default_docker_flag}}
+      - ADMIN_TOKEN=super_secret_admin_token_l3m0n_42
+      - TARGET_URL=http://127.0.0.1:5005/guestbook
+      - LOGIN_URL=http://127.0.0.1:5005/admin/login
+      - DOMAIN=127.0.0.1
+      # RATE LIMITING to prevent DoS-like behavior
+      - VISIT_INTERVAL=300
+      - PAGE_TIMEOUT=10
+    restart: always

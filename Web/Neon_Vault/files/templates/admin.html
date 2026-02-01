@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonVault // Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container admin-container">
+        <h2 class="admin-header">ROOT ACCESS GRANTED</h2>
+        <div style="text-align: left; margin-bottom: 2rem;">
+            <p><span style="color: var(--secondary-accent);">USER:</span> ADMINISTRATOR</p>
+            <p><span style="color: var(--secondary-accent);">CLEARANCE:</span> LEVEL 5 (MAXIMUM)</p>
+        </div>
+
+        <p>Welcome, Administrator. The vault is open.</p>
+
+        <div class="flag">
+            {{ flag }}
+        </div>
+    </div>
+</body>
+
+</html>

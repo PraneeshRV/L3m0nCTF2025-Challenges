@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  web_forensics:
+    build: .
+    ports:
+      - "6002:6002"
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=production
+      - FLAG=${FLAG:-L3m0nCTF{web_forensics_flag_placeholder}}

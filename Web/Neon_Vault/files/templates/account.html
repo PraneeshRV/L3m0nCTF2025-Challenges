@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonVault // Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>User Dashboard</h2>
+        <div style="text-align: left; margin-bottom: 2rem;">
+            <p><span style="color: var(--accent-color);">USER:</span> {{ username|upper }}</p>
+            <p><span style="color: var(--accent-color);">CLEARANCE:</span> LEVEL 1</p>
+
+        </div>
+
+        <div class="hint">
+            <p style="color: #666; font-size: 0.8rem;">System ID: {{ username|length * 12345 }}</p>
+        </div>
+    </div>
+</body>
+
+</html>

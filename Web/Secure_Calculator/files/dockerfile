@@ -1,0 +1,27 @@
+# Use a lightweight Python image
+FROM python:3.9-slim
+
+# Install bc
+RUN apt-get update && apt-get install -y bc
+
+# Set working directory
+WORKDIR /app
+
+# Install Flask (uses pip, which is usually more reliable, or cached)
+# If this fails, we can even run without Flask, but let's try this first.
+RUN pip install flask
+
+# Copy the application code
+# Copy the application code
+COPY flag.txt .
+COPY app.py .
+COPY start.sh .
+
+# Make start.sh executable
+RUN chmod +x start.sh
+
+# Expose port 5000
+EXPOSE 5000
+
+# Run the application using the startup script
+CMD ["./start.sh"]

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - TOP SECRET</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            padding: 2rem;
+            /* Keep the grid background for admin but overlay it */
+            background-image: linear-gradient(0deg, transparent 24%, rgba(255, 0, 60, .05) 25%, rgba(255, 0, 60, .05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 60, .05) 75%, rgba(255, 0, 60, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 0, 60, .05) 25%, rgba(255, 0, 60, .05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 60, .05) 75%, rgba(255, 0, 60, .05) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+        }
+
+        .header {
+            border-bottom: 2px solid var(--neon-red);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .warning {
+            color: var(--neon-yellow);
+            animation: blink 1s infinite;
+            font-weight: bold;
+            text-shadow: 0 0 5px var(--neon-yellow);
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--neon-red);
+            padding: 3rem;
+            text-align: center;
+            margin-top: 2rem;
+            background: rgba(255, 0, 60, 0.05);
+            transition: all 0.3s;
+            border-radius: 10px;
+        }
+
+        .upload-zone:hover {
+            background: rgba(255, 0, 60, 0.1);
+            box-shadow: 0 0 20px var(--neon-red);
+        }
+
+        input[type="file"] {
+            display: block;
+            margin: 0 auto 20px auto;
+            color: var(--neon-red);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scanlines"></div>
+
+    <div class="glass-panel"
+        style="max-width: 900px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1; border-color: var(--neon-red);">
+        <div class="header">
+            <h1 class="neon-text-red">ADMINISTRATION TERMINAL</h1>
+            <span class="warning">⚠ CLASSIFIED ACCESS ONLY ⚠</span>
+        </div>
+
+        <div>
+            <h2 class="neon-text-red">System Maintenance</h2>
+            <p>Upload system plugins (.py) for immediate execution. Ensure all plugins are signed by Central Command.
+            </p>
+            <div class="warning" style="margin-bottom: 1rem; border: 1px solid var(--neon-yellow); padding: 10px;">
+                ⚠ NETWORK ALERT: OUTBOUND FIREWALL ACTIVE. ONLY HTTP/HTTPS (80/443) TRAFFIC PERMITTED.
+            </div>
+
+            <div class="upload-zone">
+                <form id="uploadForm">
+                    <input type="file" name="file" id="fileInput" required>
+                    <button type="submit" class="cyber-button danger">Upload & Execute Plugin</button>
+                </form>
+                <div id="message" style="margin-top: 20px; font-weight: bold;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('file', document.getElementById('fileInput').files[0]);
+
+            const msgDiv = document.getElementById('message');
+            msgDiv.innerText = "Uploading...";
+            msgDiv.className = "neon-text-yellow"; // Assuming you might add this class or just style inline
+            msgDiv.style.color = "var(--neon-yellow)";
+
+            try {
+                const response = await fetch('/admin/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    msgDiv.innerText = "SUCCESS: " + result.message;
+                    msgDiv.style.color = "var(--neon-green)";
+                    msgDiv.style.textShadow = "0 0 10px var(--neon-green)";
+                } else {
+                    msgDiv.innerText = "ERROR: " + result.error;
+                    msgDiv.style.color = "var(--neon-red)";
+                    msgDiv.style.textShadow = "0 0 10px var(--neon-red)";
+                }
+            } catch (error) {
+                msgDiv.innerText = "Connection Error";
+                msgDiv.style.color = "var(--neon-red)";
+            }
+        });
+    </script>
+</body>
+
+</html>

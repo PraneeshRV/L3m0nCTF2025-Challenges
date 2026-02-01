@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L3mon Tube - Broadcast Yourself</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                L3mon<span>Tube</span>
+            </a>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search">
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a></li>
+                <li><a href="/guestbook" class="{{ 'active' if request.path == '/guestbook' else '' }}">Community</a>
+                </li>
+                <li><a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact</a></li>
+                {% if session.get('username') %}
+                <li><a href="/admin" class="btn btn-primary"
+                        style="padding: 8px 24px; color: black; margin-right: 10px;">Admin Panel</a></li>
+                <li><a href="/logout" class="btn btn-secondary" style="padding: 8px 24px;">Logout</a></li>
+                {% else %}
+                <li><a href="/login" class="btn btn-primary" style="padding: 8px 24px; color: black;">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-layout">
+        <aside class="sidebar">
+            <a href="/" class="sidebar-link {{ 'active' if request.path == '/' else '' }}">
+                <span>🏠</span> Home
+            </a>
+            <a href="/guestbook" class="sidebar-link {{ 'active' if request.path == '/guestbook' else '' }}">
+                <span>💬</span> Community
+            </a>
+            <a href="#" class="sidebar-link">
+                <span>🔥</span> Trending
+            </a>
+            <a href="#" class="sidebar-link">
+                <span>📺</span> Subscriptions
+            </a>
+            <hr style="border-color: #333; margin: 15px 0;">
+            <a href="#" class="sidebar-link">
+                <span>📚</span> Library
+            </a>
+            <a href="#" class="sidebar-link">
+                <span>🕒</span> History
+            </a>
+            <a href="#" class="sidebar-link">
+                <span>👍</span> Liked Videos
+            </a>
+            <hr style="border-color: #333; margin: 15px 0;">
+            <a href="/contact" class="sidebar-link {{ 'active' if request.path == '/contact' else '' }}">
+                <span>📧</span> Contact Us
+            </a>
+        </aside>
+
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <footer style="text-align: center; padding: 60px 0; color: #666; font-size: 0.9rem;">
+        <p>&copy; 2025 L3mon Tube. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+INTERNAL STAFF GUIDE - CONFIDENTIAL
+-----------------------------------
+Subject: Manual Discount Override
+
+If the billing system fails, use the emergency override.
+1. Endpoint: /redeem_legacy
+2. Parameter: ticket_id
+3. Code: OVERRIDE_99_PERCENT
+
+Example URL: /redeem_legacy?ticket_id=OVERRIDE_99_PERCENT

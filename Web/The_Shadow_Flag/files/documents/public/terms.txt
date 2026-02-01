@@ -1,0 +1,8 @@
+TERMS OF SERVICE (v1.0)
+-----------------------
+1. All sales are final.
+2. No hacking allowed.
+3. Refund Policy:
+   Standard users are not eligible for refunds. 
+   Employees: Please refer to the path "../private_policy/staff_guide.txt" 
+   for the manual override procedure using the legacy API.

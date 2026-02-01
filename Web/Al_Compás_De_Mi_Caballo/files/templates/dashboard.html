@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">SecurePortal</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <span class="icon">📊</span>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">📡</span>
+                    Network Activity
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">👥</span>
+                    Users
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">⚙️</span>
+                    Settings
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar">{{ user[0] | upper }}</div>
+                    <div class="user-details">
+                        <span class="username">{{ user }}</span>
+                        <span class="role">{% if admin %}Administrator{% else %}User{% endif %}</span>
+                    </div>
+                </div>
+                <a href="/logout" class="btn-logout-sidebar" title="Logout">
+                    <span class="icon">🚪</span>
+                    <span class="text">Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h1>Dashboard</h1>
+                <div class="date-display">December 19, 2025</div>
+            </header>
+
+            <div class="content-area">
+                {% if admin %}
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Active Sessions</h3>
+                        <div class="value">12</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Threats Blocked</h3>
+                        <div class="value">84</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>System Status</h3>
+                        <div class="value status-ok">Operational</div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2>Forensic Data</h2>
+                    <p>Download captured network traffic for analysis.</p>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon">📁</div>
+                        <div class="card-content">
+                            <h3>Network Capture 0</h3>
+                            <p>Suspicious traffic analysis - Batch 0</p>
+                            <a href="/data/0" class="btn-secondary">Download PCAP</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📁</div>
+                        <div class="card-content">
+                            <h3>Network Capture 1</h3>
+                            <p>Suspicious traffic analysis - Batch 1</p>
+                            <a href="/data/chat_log.pcap" class="btn-secondary">Download PCAP</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📁</div>
+                        <div class="card-content">
+                            <h3>Network Capture 2</h3>
+                            <p>Suspicious traffic analysis - Batch 2</p>
+                            <a href="/data/traffic_dump_2.pcap" class="btn-secondary">Download PCAP</a>
+                        </div>
+                    </div>
+                    <!-- Hidden for IDOR challenge: Users must guess /data/1 -->
+                </div>
+                {% else %}
+                <div class="alert warning">
+                    <h3>Access Restricted</h3>
+                    <p>You do not have permission to view administrative data. Please contact your system administrator.
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

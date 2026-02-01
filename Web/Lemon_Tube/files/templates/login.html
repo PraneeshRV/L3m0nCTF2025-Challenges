@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container" style="max-width: 400px; margin-top: 80px;">
+    <div class="text-center mb-20">
+        <h2 style="font-size: 2rem;">Login</h2>
+        <p class="text-muted">Welcome back! Please login to continue.</p>
+    </div>
+
+    {% if error %}
+    <div class="alert">
+        <span>⚠️</span> {{ error }}
+    </div>
+    {% endif %}
+
+    <form action="/login" method="POST" class="login-form">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="Enter password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Login</button>
+        <div class="login-footer">
+            <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Factor Authentication</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="header">
+                <h1>2FA Verification</h1>
+                <p>A code has been sent to your device.</p>
+            </div>
+            <div id="message" class="alert" style="display: none;"></div>
+            <form id="otpForm">
+                <div class="form-group">
+                    <label for="otp">One-Time Password</label>
+                    <input type="text" id="otp" name="otp" required placeholder="Enter 4-digit code" maxlength="4">
+                </div>
+                <!-- Hidden field to simulate how the frontend might send the username context -->
+                <input type="hidden" id="username" value="{{ session['pre_auth_user'] }}">
+                <button type="submit" class="btn-primary">Verify</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('otpForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const otp = document.getElementById('otp').value;
+            const username = document.getElementById('username').value;
+            const messageDiv = document.getElementById('message');
+
+            try {
+                const response = await fetch('/verify_otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ otp: otp, username: username })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.location.href = result.redirect;
+                } else {
+                    messageDiv.textContent = result.message;
+                    messageDiv.className = 'alert error';
+                    messageDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                messageDiv.textContent = "An error occurred.";
+                messageDiv.className = 'alert error';
+                messageDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

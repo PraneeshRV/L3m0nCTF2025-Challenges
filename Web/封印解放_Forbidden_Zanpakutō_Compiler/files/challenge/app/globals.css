@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+JP:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --seireitei-dark: #0a0a0f;
+  --seireitei-deeper: #050508;
+  --seireitei-purple: #2d1b4e;
+  --seireitei-glow: #6b4c9a;
+  --seireitei-accent: #9d7cd8;
+  --seireitei-text: #e0def4;
+  --seireitei-muted: #6e6a86;
+  --reiatsu-blue: #3b82f6;
+  --reiatsu-hollow: #dc2626;
+  --reiatsu-shinigami: #a855f7;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--seireitei-glow) var(--seireitei-deeper);
+}
+
+body {
+  font-family: 'Noto Serif JP', serif;
+  background: var(--seireitei-deeper);
+  color: var(--seireitei-text);
+  min-height: 100vh;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Reiatsu particle effect */
+.reiatsu-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.reiatsu-particles::before,
+.reiatsu-particles::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: spiritDrift 12s ease-in-out infinite;
+}
+
+.reiatsu-particles::before {
+  background: var(--seireitei-glow);
+  top: 10%;
+  left: 10%;
+}
+
+.reiatsu-particles::after {
+  background: var(--reiatsu-shinigami);
+  bottom: 20%;
+  right: 15%;
+  animation-delay: -6s;
+}
+
+@keyframes spiritDrift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translate(30px, -20px) scale(1.1);
+    opacity: 0.25;
+  }
+}
+
+/* Terminal styling */
+.terminal-window {
+  background: linear-gradient(180deg, rgba(45, 27, 78, 0.3) 0%, rgba(10, 10, 15, 0.95) 100%);
+  border: 1px solid rgba(107, 76, 154, 0.3);
+  border-radius: 8px;
+  box-shadow: 
+    0 0 30px rgba(107, 76, 154, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.terminal-header {
+  background: rgba(45, 27, 78, 0.5);
+  border-bottom: 1px solid rgba(107, 76, 154, 0.2);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--seireitei-text);
+  font-family: 'JetBrains Mono', monospace;
+  width: 100%;
+  caret-color: var(--seireitei-accent);
+}
+
+.terminal-input::placeholder {
+  color: var(--seireitei-muted);
+}
+
+/* Glowing text */
+.glow-text {
+  text-shadow: 0 0 10px var(--seireitei-glow), 0 0 20px var(--seireitei-glow);
+}
+
+/* Kanji styling */
+.kanji-title {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--seireitei-accent) 0%, var(--seireitei-glow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button styling */
+.btn-seireitei {
+  background: linear-gradient(135deg, var(--seireitei-purple) 0%, rgba(45, 27, 78, 0.6) 100%);
+  border: 1px solid rgba(107, 76, 154, 0.4);
+  color: var(--seireitei-text);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-seireitei:hover {
+  background: linear-gradient(135deg, rgba(45, 27, 78, 0.8) 0%, var(--seireitei-purple) 100%);
+  border-color: var(--seireitei-glow);
+  box-shadow: 0 0 20px rgba(107, 76, 154, 0.3);
+}
+
+/* Scroll styling */
+.scroll-card {
+  background: rgba(10, 10, 15, 0.8);
+  border: 1px solid rgba(107, 76, 154, 0.2);
+  border-radius: 6px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.scroll-card:hover {
+  border-color: var(--seireitei-glow);
+  box-shadow: 0 0 15px rgba(107, 76, 154, 0.2);
+}
+
+/* Status indicator */
+.status-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-active::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

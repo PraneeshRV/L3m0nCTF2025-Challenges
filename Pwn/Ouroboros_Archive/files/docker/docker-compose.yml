@@ -1,0 +1,27 @@
+services:
+  ouroboros:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: ouroboros_challenge
+    ports:
+      - "1337:1337"
+    cap_add:
+      - SETUID
+      - SETGID
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+        reservations:
+          memory: 128M
+          cpus: '0.25'
+    stdin_open: true
+    tty: true
+    # Increase ulimits for handling many connections
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536

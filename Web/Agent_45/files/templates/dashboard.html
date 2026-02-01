@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Agent Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            padding: 2rem;
+        }
+
+        .header {
+            border-bottom: 2px solid var(--neon-blue);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .role {
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px var(--neon-green);
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        a {
+            color: var(--neon-blue);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        a:hover {
+            color: var(--neon-pink);
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="scanlines"></div>
+
+    <div class="glass-panel" style="max-width: 800px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1;">
+        <div class="header">
+            <h1 class="neon-text-blue">Mission Control</h1>
+            <span class="role">LEVEL: {{ role.upper() }}</span>
+        </div>
+        <div class="content">
+            <h2 class="typing-effect">Welcome, Agent {{ username }}</h2>
+            <p>Current Mission Status: <span class="neon-text-green">ACTIVE</span></p>
+            <p>Access Level: STANDARD</p>
+
+            {% if error %}
+            <div class="glass-panel"
+                style="border-color: var(--neon-red); padding: 1rem; margin-top: 1rem; background: rgba(255, 0, 0, 0.1);">
+                <strong class="neon-text-red">ACCESS DENIED:</strong> {{ error }}
+            </div>
+            {% endif %}
+
+            <div style="margin-top: 2rem;">
+                <h3>Available Modules:</h3>
+                <ul>
+                    <li><a href="#">Mission Briefings</a> (Encrypted)</li>
+                    <li><a href="#">Field Reports</a> (Read Only)</li>
+                    <li><a href="/admin">Administrative Panel</a> (RESTRICTED)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

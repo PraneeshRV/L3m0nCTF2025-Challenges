@@ -1,0 +1,18 @@
+services:
+  mnemosyne:
+    build: .
+    container_name: project-mnemosyne
+    ports:
+      - "3002:3002"
+    environment:
+      - FLAG=${FLAG:-L3m0nCTF{sh4r3d_m3m0ry_p01s0n1ng}}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - PORT=3002
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:3001" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

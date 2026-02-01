@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculat3 M3 - L3mon CTF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;700&display=swap');
+        
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+        .calc-btn {
+            transition: all 0.1s;
+        }
+        .calc-btn:active {
+            transform: scale(0.95);
+        }
+        /* CRT Effect for the output terminal */
+        .terminal {
+            background: #0c0c0c;
+            border: 1px solid #333;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .terminal::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Challenge Header -->
+    <div class="mb-8 text-center">
+        <h1 class="text-4xl font-bold text-green-400 mb-2 mono">Calculat3 M3</h1>
+        <p class="text-slate-400 text-sm max-w-md mx-auto">
+            I built this calculator for the L3mon CTF. It runs on a Linux server and uses the `bc` utility for precision. 
+            <br><span class="text-yellow-500 text-xs">(Hint: It might be too trusting of your input...)</span>
+        </p>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-8 items-start w-full max-w-5xl">
+        
+        <!-- Calculator UI -->
+        <div class="bg-slate-800 p-6 rounded-2xl shadow-2xl w-full md:w-1/3 border border-slate-700">
+            <div class="mb-4">
+                <input type="text" id="display" class="w-full bg-slate-900 text-green-400 text-right text-2xl p-4 rounded-lg font-mono border border-slate-600 focus:outline-none focus:border-green-500" placeholder="0">
+            </div>
+            
+            <div class="grid grid-cols-4 gap-3">
+                <button onclick="appendVal('7')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">7</button>
+                <button onclick="appendVal('8')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">8</button>
+                <button onclick="appendVal('9')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">9</button>
+                <button onclick="appendVal('/')" class="calc-btn bg-orange-600 hover:bg-orange-500 p-4 rounded-lg font-bold text-xl text-white">/</button>
+
+                <button onclick="appendVal('4')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">4</button>
+                <button onclick="appendVal('5')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">5</button>
+                <button onclick="appendVal('6')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">6</button>
+                <button onclick="appendVal('*')" class="calc-btn bg-orange-600 hover:bg-orange-500 p-4 rounded-lg font-bold text-xl text-white">x</button>
+
+                <button onclick="appendVal('1')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">1</button>
+                <button onclick="appendVal('2')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">2</button>
+                <button onclick="appendVal('3')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">3</button>
+                <button onclick="appendVal('-')" class="calc-btn bg-orange-600 hover:bg-orange-500 p-4 rounded-lg font-bold text-xl text-white">-</button>
+
+                <button onclick="appendVal('0')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">0</button>
+                <button onclick="appendVal('.')" class="calc-btn bg-slate-700 hover:bg-slate-600 p-4 rounded-lg font-bold text-xl">.</button>
+                <button onclick="clearDisplay()" class="calc-btn bg-red-600 hover:bg-red-500 p-4 rounded-lg font-bold text-xl text-white">C</button>
+                <button onclick="appendVal('+')" class="calc-btn bg-orange-600 hover:bg-orange-500 p-4 rounded-lg font-bold text-xl text-white">+</button>
+            </div>
+            <button onclick="calculate()" class="calc-btn w-full mt-3 bg-green-600 hover:bg-green-500 p-4 rounded-lg font-bold text-xl text-white shadow-lg">=</button>
+            
+            <!-- Hidden inputs for hacking -->
+            <div class="mt-4 pt-4 border-t border-slate-700">
+                <p class="text-xs text-slate-500 mb-2">Manual Override (For injection testing):</p>
+                <div class="flex gap-2">
+                    <input type="text" id="manualInput" class="w-full bg-slate-900 text-xs p-2 text-slate-300 font-mono rounded border border-slate-600" placeholder="e.g. ; ls">
+                    <button onclick="manualSubmit()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 rounded">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Server Response Simulation (The Terminal) -->
+        <div class="w-full md:w-2/3">
+            <div class="terminal bg-black p-4 rounded-lg h-[500px] flex flex-col font-mono text-sm overflow-hidden relative">
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2 mb-2">
+                    <span class="text-gray-500">server_response.log</span>
+                    <div class="flex gap-1">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                </div>
+                <div id="terminalOutput" class="flex-1 overflow-y-auto text-green-500 p-2 space-y-1">
+                    <div class="opacity-50">Waitng for input...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const terminal = document.getElementById('terminalOutput');
+        const manualInput = document.getElementById('manualInput');
+
+        function appendVal(val) {
+            display.value += val;
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function log(message, type = 'info') {
+            const line = document.createElement('div');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            if (type === 'error') line.className = 'text-red-400';
+            else if (type === 'success') line.className = 'text-green-400 font-bold';
+            else line.className = 'text-green-500';
+
+            line.innerHTML = `<span class="text-gray-600">[${timestamp}]</span> ${message}`;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function manualSubmit() {
+            const val = manualInput.value;
+            display.value = val; // Reflect in main display
+            processExpression(val);
+        }
+
+        function calculate() {
+            processExpression(display.value);
+        }
+
+        // ---------------------------------------------------------
+        // SIMULATED BACKEND LOGIC 
+        // In a real CTF, this logic lives in Python/PHP on the server
+        // ---------------------------------------------------------
+        function processExpression(expression) {
+            log(`> POST /calc payload: "${expression}"`);
+
+            // 1. Simulate the basic calculator (The "Happy Path")
+            // If it's just math, eval it (safe-ish for this demo context only!)
+            const isMathOnly = /^[0-9+\-*/.\s]+$/.test(expression);
+
+            if (isMathOnly) {
+                try {
+                    // eslint-disable-next-line no-eval
+                    const result = eval(expression); 
+                    display.value = result;
+                    log(`Server Output: ${result}`, 'info');
+                    return;
+                } catch (e) {
+                    log(`Syntax Error in calculation`, 'error');
+                }
+            }
+
+            // 2. Vulnerability Simulation: Command Injection
+            // We check if there is a separator like ';' or '|'
+            if (expression.includes(';') || expression.includes('|')) {
+                log(`[!] Alert: Suspicious characters detected, but passed to shell...`, 'info');
+                
+                // Get the command after the separator
+                const parts = expression.split(/[;|]/); 
+                const injectedCommand = parts[parts.length - 1].trim(); // Take the last part
+                
+                simulateShellCommand(injectedCommand);
+            } else {
+                log(`Error: Invalid mathematical expression.`, 'error');
+            }
+        }
+
+        function simulateShellCommand(cmd) {
+            const lowerCmd = cmd.toLowerCase();
+
+            // -------------------------------------------------
+            // LEVEL 2 FILTER LOGIC
+            // -------------------------------------------------
+            if (lowerCmd.includes('cat')) {
+                log(`STOP! Security Filter Triggered.`, 'error');
+                log(`The administrator has blocked the 'cat' command. Try harder!`, 'error');
+                return;
+            }
+
+            // -------------------------------------------------
+            // COMMAND SIMULATION
+            // -------------------------------------------------
+            
+            // Scenario 1: 'ls' - Listing files
+            if (lowerCmd === 'ls' || lowerCmd === 'ls -la') {
+                log(`Executing: /bin/sh -c "${cmd}"`, 'info');
+                setTimeout(() => {
+                    log(`index.html<br>style.css<br>server.py<br>flag.txt`, 'success');
+                }, 400);
+            }
+            // Scenario 2: Reading the flag (Bypass successful)
+            // Accepts: head, tail, more, less, grep, awk
+            else if (
+                (lowerCmd.startsWith('head') || 
+                 lowerCmd.startsWith('tail') || 
+                 lowerCmd.startsWith('more') || 
+                 lowerCmd.startsWith('less') ||
+                 lowerCmd.startsWith('grep') ||
+                 lowerCmd.startsWith('awk')
+                ) && lowerCmd.includes('flag.txt')
+            ) {
+                log(`Executing: /bin/sh -c "${cmd}"`, 'info');
+                setTimeout(() => {
+                    log(`L3mon{s3cur1ty_by_obscur1ty_1s_n0t_s3cur1ty}`, 'success');
+                }, 600);
+            }
+            // Scenario 3: Unknown command
+            else {
+                log(`Executing: /bin/sh -c "${cmd}"`, 'info');
+                setTimeout(() => {
+                    log(`/bin/sh: 1: ${cmd}: not found`, 'error');
+                }, 400);
+            }
+        }
+    </script>
+</body>
+</html>

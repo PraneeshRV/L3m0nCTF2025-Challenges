@@ -1,0 +1,9 @@
+version: '3'
+services:
+  arbitrage:
+    build: .
+    ports:
+      - "${PORT:-5004}:5004"
+    environment:
+      - FLAG=${FLAG:-L3m0nCTF{arb1trag3_r4c3_c0nd1t10n}}
+    restart: always

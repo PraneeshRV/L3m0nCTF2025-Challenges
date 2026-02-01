@@ -1,0 +1,334 @@
+:root {
+    --neon-blue: #00f3ff;
+    --neon-pink: #ff00ff;
+    --neon-green: #0f0;
+    --neon-red: #ff003c;
+    --neon-yellow: #ffee00;
+    --bg-color: #0a0a0a;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --text-color: #fff;
+    --font-main: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Typography & Effects */
+.neon-text-blue {
+    color: var(--neon-blue);
+    text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+}
+
+.neon-text-pink {
+    color: var(--neon-pink);
+    text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+}
+
+.neon-text-green {
+    color: var(--neon-green);
+    text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
+}
+
+.neon-text-red {
+    color: var(--neon-red);
+    text-shadow: 0 0 5px var(--neon-red), 0 0 10px var(--neon-red);
+}
+
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Glitch Effect */
+.glitch {
+    position: relative;
+    color: var(--text-color);
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 var(--neon-red);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-1 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -1px 0 var(--neon-blue);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+    0% {
+        clip: rect(30px, 9999px, 10px, 0);
+    }
+
+    5% {
+        clip: rect(70px, 9999px, 90px, 0);
+    }
+
+    10% {
+        clip: rect(40px, 9999px, 20px, 0);
+    }
+
+    15% {
+        clip: rect(80px, 9999px, 50px, 0);
+    }
+
+    20% {
+        clip: rect(10px, 9999px, 60px, 0);
+    }
+
+    25% {
+        clip: rect(50px, 9999px, 30px, 0);
+    }
+
+    30% {
+        clip: rect(90px, 9999px, 10px, 0);
+    }
+
+    35% {
+        clip: rect(20px, 9999px, 70px, 0);
+    }
+
+    40% {
+        clip: rect(60px, 9999px, 40px, 0);
+    }
+
+    45% {
+        clip: rect(10px, 9999px, 80px, 0);
+    }
+
+    50% {
+        clip: rect(50px, 9999px, 20px, 0);
+    }
+
+    55% {
+        clip: rect(90px, 9999px, 60px, 0);
+    }
+
+    60% {
+        clip: rect(30px, 9999px, 10px, 0);
+    }
+
+    65% {
+        clip: rect(70px, 9999px, 50px, 0);
+    }
+
+    70% {
+        clip: rect(20px, 9999px, 90px, 0);
+    }
+
+    75% {
+        clip: rect(60px, 9999px, 30px, 0);
+    }
+
+    80% {
+        clip: rect(10px, 9999px, 70px, 0);
+    }
+
+    85% {
+        clip: rect(50px, 9999px, 20px, 0);
+    }
+
+    90% {
+        clip: rect(90px, 9999px, 60px, 0);
+    }
+
+    95% {
+        clip: rect(30px, 9999px, 10px, 0);
+    }
+
+    100% {
+        clip: rect(70px, 9999px, 50px, 0);
+    }
+}
+
+@keyframes glitch-anim-2 {
+    0% {
+        clip: rect(10px, 9999px, 80px, 0);
+    }
+
+    5% {
+        clip: rect(50px, 9999px, 20px, 0);
+    }
+
+    10% {
+        clip: rect(90px, 9999px, 60px, 0);
+    }
+
+    15% {
+        clip: rect(30px, 9999px, 10px, 0);
+    }
+
+    20% {
+        clip: rect(70px, 9999px, 50px, 0);
+    }
+
+    25% {
+        clip: rect(20px, 9999px, 90px, 0);
+    }
+
+    30% {
+        clip: rect(60px, 9999px, 30px, 0);
+    }
+
+    35% {
+        clip: rect(10px, 9999px, 70px, 0);
+    }
+
+    40% {
+        clip: rect(50px, 9999px, 20px, 0);
+    }
+
+    45% {
+        clip: rect(90px, 9999px, 60px, 0);
+    }
+
+    50% {
+        clip: rect(30px, 9999px, 10px, 0);
+    }
+
+    55% {
+        clip: rect(70px, 9999px, 50px, 0);
+    }
+
+    60% {
+        clip: rect(20px, 9999px, 90px, 0);
+    }
+
+    65% {
+        clip: rect(60px, 9999px, 30px, 0);
+    }
+
+    70% {
+        clip: rect(10px, 9999px, 70px, 0);
+    }
+
+    75% {
+        clip: rect(50px, 9999px, 20px, 0);
+    }
+
+    80% {
+        clip: rect(90px, 9999px, 60px, 0);
+    }
+
+    85% {
+        clip: rect(30px, 9999px, 10px, 0);
+    }
+
+    90% {
+        clip: rect(70px, 9999px, 50px, 0);
+    }
+
+    95% {
+        clip: rect(20px, 9999px, 90px, 0);
+    }
+
+    100% {
+        clip: rect(60px, 9999px, 30px, 0);
+    }
+}
+
+/* Scanline */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0) 50%,
+            rgba(0, 0, 0, 0.2) 50%,
+            rgba(0, 0, 0, 0.2));
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* Buttons & Inputs */
+.cyber-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    color: var(--neon-blue);
+    border-radius: 5px;
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.cyber-input:focus {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 10px var(--neon-pink);
+}
+
+.cyber-button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.cyber-button:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 20px var(--neon-blue);
+}
+
+.cyber-button.danger {
+    border-color: var(--neon-red);
+    color: var(--neon-red);
+}
+
+.cyber-button.danger:hover {
+    background: var(--neon-red);
+    color: #fff;
+    box-shadow: 0 0 20px var(--neon-red);
+}
+
+/* Background Animation Canvas */
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}

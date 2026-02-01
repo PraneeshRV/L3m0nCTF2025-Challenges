@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="header">
+                <h1>Create Account</h1>
+                <p>Join the secure portal today.</p>
+            </div>
+            {% if error %}
+            <div class="alert error">{{ error }}</div>
+            {% endif %}
+            <form method="POST" action="/signup">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="Choose a username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Choose a password">
+                </div>
+                <button type="submit" class="btn-primary">Sign Up</button>
+            </form>
+            <div class="footer-link">
+                <p>Already have an account? <a href="/login">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

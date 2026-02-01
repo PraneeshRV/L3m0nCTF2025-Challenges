@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHECKOUT // SHADOWCORP</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: rgba(20, 20, 20, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #facc15;
+            --accent-glow: rgba(250, 204, 21, 0.4);
+            --text: #e5e5e5;
+            --muted: #737373;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--panel);
+        }
+
+        .brand {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .checkout-box {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 12px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .total-row {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            border-top: 2px solid var(--border);
+            padding-top: 20px;
+        }
+
+        input {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            padding: 10px;
+            color: white;
+            width: 200px;
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: var(--font-display);
+        }
+
+        button:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-pay {
+            width: 100%;
+            background: var(--success);
+            color: #000;
+            border: none;
+            padding: 20px;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        .btn-pay:hover {
+            background: #4ade80;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="brand">SHADOWCORP</a>
+        <div class="nav-links">
+            <span>Balance: <%= currency(balance) %></span>
+            <a href="/shop">Shop</a>
+            <a href="/checkout" style="color: var(--accent);">Checkout</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 style="font-family: var(--font-display); margin-bottom: 40px;">Requisition Summary</h1>
+
+        <div class="checkout-box">
+            <% if (cart && cart.item) { %>
+                <div class="row">
+                    <div>
+                        <h3>
+                            <%= items[cart.item].name %>
+                        </h3>
+                        <div style="color: var(--muted);">
+                            <%= items[cart.item].desc %>
+                        </div>
+                    </div>
+                    <div style="font-size: 1.2rem;">
+                        <%= currency(items[cart.item].price) %>
+                    </div>
+                </div>
+
+                <% if (cart.discount> 0) { %>
+                    <div class="row" style="color: var(--success);">
+                        <div>PROMO CODE APPLIED</div>
+                        <div>-<%= currency(cart.discount) %>
+                        </div>
+                    </div>
+                    <% } %>
+
+                        <div class="row total-row">
+                            <div>TOTAL</div>
+                            <div>
+                                <%= currency(Math.max(0, items[cart.item].price - cart.discount)) %>
+                            </div>
+                        </div>
+
+                        <div
+                            style="margin-top: 40px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px;">
+                            <div style="margin-bottom: 10px; font-size: 0.9rem;">HAVE A PROMO CODE?</div>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="couponCode" placeholder="ENTER CODE">
+                                <button onclick="applyCoupon()">APPLY</button>
+                            </div>
+                        </div>
+
+                        <button onclick="pay()" class="btn-pay">CONFIRM REQUISITION</button>
+
+                        <form action="/cart/clear" method="POST" style="margin-top: 20px; text-align: center;">
+                            <button type="submit" style="border: none; color: var(--danger); font-size: 0.8rem;">CANCEL
+                                ORDER</button>
+                        </form>
+
+                        <% } else { %>
+                            <div class="empty-cart">
+                                <h2>NO ITEMS IN QUEUE</h2>
+                                <a href="/shop" style="color: var(--accent);">RETURN TO CATALOG</a>
+                            </div>
+                            <% } %>
+        </div>
+    </div>
+
+    <script>
+        function applyCoupon() {
+            const code = document.getElementById('couponCode').value;
+            fetch('/cart/apply_coupon', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'code=' + code
+            })
+                .then(r => r.json())
+                .then(d => {
+                    if (d.status === 'error') alert("Error: " + d.msg);
+                    else {
+                        location.reload();
+                    }
+                });
+        }
+
+        function pay() {
+            fetch('/checkout/pay', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+                .then(r => r.json())
+                .then(d => {
+                    if (d.status === 'win') {
+                        alert("🚩 FLAG ACQUIRED: " + d.flag);
+                    } else if (d.status === 'error') {
+                        alert("ERROR: " + d.msg);
+                    } else {
+                        alert(d.msg);
+                        window.location.href = '/shop';
+                    }
+                });
+        }
+    </script>
+
+</body>
+
+</html>

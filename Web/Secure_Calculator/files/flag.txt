@@ -1,0 +1,1 @@
+L3monCTF{sh3ll_inj3ct10n_is_n0t_m4th}

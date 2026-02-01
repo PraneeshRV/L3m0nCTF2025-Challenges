@@ -1,0 +1,9 @@
+services:
+  ctf-challenge:
+    build: .
+    ports:
+      - "${PORT:-5002}:5000"
+    environment:
+      - FLAG=${FLAG:-L3m0nCTF{sh3ll_inj3ct10n_is_n0t_m4th}}
+    restart: always
+    container_name: l3mon-command-injection

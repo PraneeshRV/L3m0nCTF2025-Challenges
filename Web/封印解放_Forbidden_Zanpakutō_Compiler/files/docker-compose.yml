@@ -1,0 +1,16 @@
+services:
+  rfr-compiler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - FLAG=${FLAG:-L3m0n{Ky0ug0ku_n0_K0t0tsu_B4NK41}}
+    read_only: true
+    tmpfs:
+      - /tmp:mode=1777
+    security_opt:
+      - no-new-privileges:true

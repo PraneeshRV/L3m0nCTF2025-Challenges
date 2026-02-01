@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHADOWCORP // INTERNAL</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: rgba(20, 20, 20, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #facc15;
+            --accent-glow: rgba(250, 204, 21, 0.4);
+            --text: #e5e5e5;
+            --muted: #737373;
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--panel);
+        }
+
+        .brand {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            background: radial-gradient(circle at 50% 50%, rgba(250, 204, 21, 0.05), transparent 60%);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            max-width: 600px;
+            color: var(--muted);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 15px 30px;
+            font-family: var(--font-display);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .login-box {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            padding: 15px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="brand">SHADOWCORP</a>
+        <% if (user) { %>
+            <div>
+                <span style="margin-right: 20px;">ID: <%= user %></span>
+                <a href="/logout" style="color: var(--accent);">LOGOUT</a>
+            </div>
+            <% } %>
+    </nav>
+
+    <div class="hero">
+        <% if (!user) { %>
+            <h1>Secure Procurement</h1>
+            <p>Welcome to the ShadowCorp internal procurement system. Authorized personnel only. All access is logged
+                and monitored.</p>
+
+            <div class="login-box">
+                <form action="/register" method="POST">
+                    <input type="text" name="username" placeholder="ENTER EMPLOYEE ID" required>
+                    <button type="submit" class="btn" style="width: 100%;">AUTHENTICATE</button>
+                </form>
+            </div>
+            <% } else { %>
+                <h1>Welcome Back, <%= user %>
+                </h1>
+                <p>Your clearance level grants you access to the procurement terminal.</p>
+                <a href="/shop" class="btn">ENTER SHOP</a>
+                <% } %>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 ShadowCorp Industries. All rights reserved.
+        <br><br>
+        <a href="#">Terms of Service</a> |
+        <a href="#">Privacy</a>
+    </div>
+
+</body>
+
+</html>

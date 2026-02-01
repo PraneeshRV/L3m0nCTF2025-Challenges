@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L3MON // SECURE TERMINAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: rgba(20, 20, 20, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #facc15; /* Lemon Yellow */
+            --accent-glow: rgba(250, 204, 21, 0.4);
+            --text: #e5e5e5;
+            --muted: #737373;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-display: 'Orbitron', sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(250, 204, 21, 0.15), transparent 40%),
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            color: var(--text);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: var(--panel);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative Elements */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.5;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .brand {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-shadow: 0 0 20px var(--accent-glow);
+            letter-spacing: 2px;
+        }
+
+        .user-panel {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        .balance-display {
+            color: var(--success);
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        .panel-header {
+            font-family: var(--font-display);
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .panel-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            background: rgba(250, 204, 21, 0.05);
+            transform: translateX(5px);
+        }
+
+        .item-info h3 { margin: 0 0 5px 0; font-size: 1rem; }
+        .item-price { font-family: var(--font-mono); color: var(--accent); font-size: 0.9rem; }
+        .item-meta { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+
+        button {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            font-family: var(--font-mono);
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
+
+        .alert {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: var(--font-mono);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255,255,255,0.1);
+            color: var(--muted);
+        }
+        .status-badge.vip {
+            background: rgba(250, 204, 21, 0.2);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+        .doc-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+        .doc-link:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent-glow); }
+
+        /* Login Box */
+        .login-box {
+            max-width: 400px;
+            margin: 80px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="brand">L3MON_CORP</div>
+        {% if user %}
+            <div class="user-panel">
+                <span>USER: {{ user }}</span>
+                <span class="balance-display">{{ balance | currency }}</span>
+                <a href="/logout" style="color: var(--danger); text-decoration: none; margin-left: 15px;">[LOGOUT]</a>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if msg == 'OVERRIDE_SUCCESS' %}
+        <div class="alert">
+            ⚠ SYSTEM OVERRIDE DETECTED // DEVELOPER CLEARANCE GRANTED ⚠
+        </div>
+    {% endif %}
+
+    {% if not user %}
+        <div class="login-box">
+            <h2 style="font-family: var(--font-display); color: var(--accent); margin-bottom: 30px;">SECURE LOGIN</h2>
+            <form action="/register" method="POST">
+                <input type="text" name="username" placeholder="ENTER EMPLOYEE ID..." required>
+                <button type="submit" class="btn-login">AUTHENTICATE</button>
+            </form>
+        </div>
+    {% else %}
+        
+        <div style="text-align: right; margin-bottom: 30px;">
+            {% if discount %}
+                <span class="status-badge vip">★ DEV OVERRIDE ACTIVE (99% OFF)</span>
+            {% else %}
+                <span class="status-badge">STANDARD CLEARANCE</span>
+            {% endif %}
+        </div>
+
+        <div class="grid">
+            <!-- SHOP SECTION -->
+            <div>
+                <div class="panel-header">ACQUISITION TERMINAL</div>
+                {% for key, item in items.items() %}
+                    <div class="card">
+                        <div class="item-info">
+                            <h3>{{ item.icon }} {{ item.name }}</h3>
+                            <div class="item-price">{{ item.price | currency }}</div>
+                        </div>
+                        <button onclick="buy('{{ key }}')">PURCHASE</button>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- INVENTORY SECTION -->
+            <div>
+                <div class="panel-header">ASSET HOLDINGS</div>
+                <div id="inventory-list">
+                    {% for item in inventory %}
+                        <div class="card">
+                            <div class="item-info">
+                                <h3>{{ item.name }}</h3>
+                                <div class="item-meta">ACQUIRED: {{ item.paid | currency }}</div>
+                            </div>
+                            <button onclick="exchange('{{ item.id }}', '{{ item.item }}')">EXCHANGE</button>
+                        </div>
+                    {% else %}
+                        <div style="text-align: center; padding: 40px; color: var(--muted); border: 1px dashed var(--border); border-radius: 12px;">
+                            NO ASSETS DETECTED
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="/doc_viewer?doc=corporate_policy.txt" class="doc-link">
+                [ VIEW CORPORATE POLICY DOCUMENT ]
+            </a>
+        </div>
+
+    {% endif %}
+</div>
+
+<script>
+    function buy(item) {
+        fetch('/buy', {
+            method:'POST', 
+            headers:{'Content-Type':'application/x-www-form-urlencoded'}, 
+            body:'item='+item
+        })
+        .then(r=>r.json())
+        .then(d=>{
+            if(d.status === 'win') {
+                alert("🚩 FLAG ACQUIRED: " + d.flag);
+            } else if (d.status === 'error') {
+                alert("ERROR: " + d.msg);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    function exchange(id, target) {
+        fetch('/exchange', {
+            method:'POST', 
+            headers:{'Content-Type':'application/x-www-form-urlencoded'}, 
+            body:'inventory_id='+id+'&target_item='+target
+        })
+        .then(r=>r.json())
+        .then(d=>{ 
+            if(d.status === 'error') alert("Exchange Failed");
+            else location.reload(); 
+        });
+    }
+</script>
+
+</body>
+</html>

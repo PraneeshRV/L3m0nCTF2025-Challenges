@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
+.git
+.gitignore
+solve_hard.py
+writeup_hard.md
+documents

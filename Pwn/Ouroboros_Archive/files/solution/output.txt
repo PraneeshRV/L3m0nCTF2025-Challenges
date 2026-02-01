@@ -1,0 +1,11 @@
+[*] Processing ZIP file (2 entries)...
+[*] Extracting to sandbox/
+[+] Created symlink: escape -> /
+[+] Extracted: escape/tmp/pwned (9 bytes)
+
+[!] ═══════════════════════════════════════
+[!] EXPLOIT SUCCESSFUL!
+[!] ═══════════════════════════════════════
+
+[+] Flag: 
+

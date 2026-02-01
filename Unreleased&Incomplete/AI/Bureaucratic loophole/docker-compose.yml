@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: bureaucratic-loophole-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - FLAG=${FLAG:-L3m0nCTF{Bur3aucr4cy_Tru5ts_V4l1d_Synt4x}}
+      - PORT=3001
+      - DIFFICULTY=insane
+    restart: unless-stopped
+    networks:
+      - ctf-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bureaucratic-loophole-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - ctf-network
+
+networks:
+  ctf-network:
+    driver: bridge

@@ -1,0 +1,9 @@
+version: '3'
+services:
+  format_pie:
+    build: .
+    ports:
+      - "${PORT:-1337}:1337"
+    environment:
+      - FLAG=${FLAG:-L3monCTF{f0rm4t_str1ng_p13_byp4ss}}
+    restart: always

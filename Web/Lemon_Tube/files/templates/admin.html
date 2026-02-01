@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="dashboard-header">
+        <div>
+            <h2>L3mon Studio</h2>
+            <p class="text-muted">Manage your channel and content.</p>
+        </div>
+        <button class="btn btn-primary">
+            <span>📹</span> &nbsp; Upload Video
+        </button>
+    </div>
+
+    <div class="video-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-bottom: 40px;">
+        <div class="stat-card">
+            <div class="stat-number">1.2M</div>
+            <div class="text-muted">Subscribers</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">45.3K</div>
+            <div class="text-muted">Views (48h)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">$12.4K</div>
+            <div class="text-muted">Revenue</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">98%</div>
+            <div class="text-muted">Like Ratio</div>
+        </div>
+    </div>
+
+    <div class="card-bg"
+        style="background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border-color);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+                <h3 class="mb-20" style="font-size: 1.5rem;">Channel Customization</h3>
+                <p class="text-muted mb-20" style="max-width: 600px;">
+                    Advanced settings for your channel templates. Use the template editor to modify your channel's
+                    appearance directly.
+                </p>
+            </div>
+            <div style="font-size: 3rem; opacity: 0.2;">⚙️</div>
+        </div>
+
+        <div class="admin-actions" style="margin-top: 20px;">
+            <a href="/admin_area/template_editor.php" class="btn btn-secondary" style="padding: 12px 30px;">
+                <span>🔧</span> &nbsp; Open Template Editor
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

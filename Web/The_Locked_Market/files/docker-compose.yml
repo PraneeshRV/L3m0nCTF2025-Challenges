@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  arbitrage_hard:
+    build: .
+    ports:
+      - "5003:5003"
+    restart: unless-stopped
+    environment:
+      - FLAG=${FLAG:-L3m0nCTF{l0cks_ar3_0nly_as_str0ng_as_th3_k3y_h0ld3r}}

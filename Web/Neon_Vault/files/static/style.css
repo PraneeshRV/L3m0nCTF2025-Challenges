@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
+
+:root {
+    --bg-color: #050505;
+    --card-bg: rgba(20, 20, 30, 0.7);
+    --text-color: #e0e0e0;
+    --accent-color: #00f3ff;
+    --accent-glow: 0 0 15px rgba(0, 243, 255, 0.6);
+    --secondary-accent: #ff00ff;
+    --secondary-glow: 0 0 15px rgba(255, 0, 255, 0.6);
+    --font-main: 'Rajdhani', sans-serif;
+    --font-header: 'Orbitron', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 20%);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Scanline effect */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1));
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.container {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 3rem 4rem;
+    border-radius: 16px;
+    box-shadow:
+        0 0 30px rgba(0, 0, 0, 0.8),
+        0 0 2px var(--accent-color),
+        inset 0 0 20px rgba(0, 243, 255, 0.05);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    text-align: center;
+    width: 400px;
+    position: relative;
+    z-index: 20;
+    animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+h2 {
+    font-family: var(--font-header);
+    color: var(--accent-color);
+    text-shadow: var(--accent-glow);
+    margin-bottom: 2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 4px;
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: 1.1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    /* Fix padding issue */
+}
+
+input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    color: var(--accent-color);
+    font-family: var(--font-header);
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-color);
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+button:hover {
+    color: #000;
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+button:hover::before {
+    left: 0;
+}
+
+.hint {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #666;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}
+
+.flag {
+    font-family: 'Courier New', monospace;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border: 1px solid var(--secondary-accent);
+    box-shadow: 0 0 10px var(--secondary-glow);
+    color: var(--secondary-accent);
+    margin-top: 25px;
+    word-break: break-all;
+    font-size: 1.2rem;
+    position: relative;
+}
+
+.flag::before {
+    content: "SECRET//TOP_SECRET";
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: var(--bg-color);
+    padding: 0 5px;
+    font-size: 0.7rem;
+    color: var(--secondary-accent);
+}
+
+/* Admin specific overrides */
+.admin-container {
+    border-color: var(--secondary-accent);
+    box-shadow:
+        0 0 30px rgba(0, 0, 0, 0.8),
+        0 0 2px var(--secondary-accent),
+        inset 0 0 20px rgba(255, 0, 255, 0.05);
+}
+
+.admin-header {
+    color: var(--secondary-accent);
+    text-shadow: var(--secondary-glow);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #fff;
+    text-shadow: 0 0 5px var(--accent-color);
+}

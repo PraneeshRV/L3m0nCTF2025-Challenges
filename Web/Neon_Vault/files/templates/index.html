@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonVault // Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>NeonVault Access</h2>
+        <form action="/login" method="POST">
+            <label for="username">Identity</label>
+            <input type="text" id="username" name="username" placeholder="ENTER USERNAME" autocomplete="off">
+
+            <label for="password">Passcode</label>
+            <input type="password" id="password" name="password" placeholder="ENTER PASSWORD">
+
+            <button type="submit">Initialize Session</button>
+        </form>
+        <div class="hint">
+            <span style="color: var(--accent-color);">SYSTEM STATUS:</span> <span
+                style="color: #0f0;">OPERATIONAL</span>
+        </div>
+    </div>
+</body>
+
+</html>

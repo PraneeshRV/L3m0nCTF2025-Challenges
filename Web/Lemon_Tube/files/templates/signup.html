@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container" style="max-width: 400px; margin-top: 80px;">
+    <div class="text-center mb-20">
+        <h2 style="font-size: 2rem;">Create Account</h2>
+        <p class="text-muted">Join the L3mon Tube community.</p>
+    </div>
+
+    {% if error %}
+    <div class="alert">
+        <span>⚠️</span> {{ error }}
+    </div>
+    {% endif %}
+
+    <form action="/signup" method="POST" class="login-form">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required placeholder="Choose a username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="Choose a password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Sign Up</button>
+        <div class="login-footer">
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+    </form>
+</div>
+{% endblock %}
